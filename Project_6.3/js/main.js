@@ -1,5 +1,6 @@
 $(document).ready(function () {
 
+	makeTheSame();
 
 });
 
@@ -22,8 +23,6 @@ function transformString(stringOne, stringTwo) {
 }
 
 
-checkCondition();
-
 // check all conditions
 function checkCondition() {
 	compareStrings();
@@ -33,37 +32,35 @@ function checkCondition() {
 	if (stringIdentical == true || reasonOperation == false || indexMatch == false) {
 		indicator = false;
 		alert("Strings cannot be made the same!");
+		return indicator;
 	} else {
 		indicator = true;
 		alert("Strings can be made the same!");
+		return indicator;
 	}
 }
-
-console.log(symbolMatches);
-console.log(arrayOne);
-console.log(indicator);
 
 
 // make two string the same
 function makeTheSame() {
 	checkCondition();
 	
-	if (true) {
+	if (indicator == true && stringIdentical == false) {
 		swapEven();
 		compareStrings();
-		alert(arrayOne);
+		alert(`First string: ${arrayOne}. Second string: ${arrayTwo}.`);
 	}
 
-	if (true) {
+	if (indicator == true && stringIdentical == false) {
 		swapOdd();
 		compareStrings();
-		alert(arrayOne);
+		alert(`First string: ${arrayOne}. Second string: ${arrayTwo}.`);
 	}
 
-	if (true) {
+	if (indicator == true && stringIdentical == false) {
 		swapEven();
 		compareStrings();
-		alert(`First string: ${arrayOne}. Second string: ${arrayOne}.`);
+		alert(`First string: ${arrayOne}. Second string: ${arrayTwo}.`);
 	}
 }
 
@@ -73,8 +70,10 @@ function compareStrings() {
 	for (let i = 0; i < arrayOne.length; i++) {
 		if (arrayOne[i] == arrayTwo[i]) {
 			stringIdentical = true;
+			return stringIdentical;
 		} else {
 			stringIdentical = false;
+			return stringIdentical;
 		}
 	}	
 }
@@ -84,8 +83,10 @@ function compareStrings() {
 function compareLength() {
 	if (arrayOne.length == arrayTwo.length) {
 		reasonOperation = true;
+		return reasonOperation;
 	} else {
 		reasonOperation = false;
+		return reasonOperation;
 	}
 }
 
@@ -99,6 +100,7 @@ function compareIndex() {
 				if (i%2 == 0 && j%2 == 0 || i%2 != 0 && j%2 != 0) {
 					symbolMatches[i]++;
 					indexMatch = true;
+					return indexMatch;
 				}
 			}
 		}
@@ -106,6 +108,7 @@ function compareIndex() {
 	for (let i = 0; i < arrayOne.length; i++) {
 		if (symbolMatches[i] == 0) {
 			indexMatch = false;
+			return indexMatch;
 		}
 	}
 }
