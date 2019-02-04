@@ -8,7 +8,7 @@ $(document).ready(function () {
 
 });
 
-// На четных позициях стоят ЗАГЛАВНЫЕ БУКВЫ на нечетных - строчные
+// на четных позициях стоят ЗАГЛАВНЫЕ БУКВЫ на нечетных - строчные
 // gets data
 function getData() {
 	var data = transformString("AbCdAdBa", "AdBbCaAd"),
@@ -117,10 +117,10 @@ function newCompareIndex() {
 				if (k%2 != 0) {	sameSymbolsArrayTwoOdd++;	}
 			}
 		}
-
+		
 		if (sameSymbolsArrayOne != sameSymbolsArrayTwo || 
-				sameSymbolsArrayOneEven != sameSymbolsArrayTwoEven ||
-				sameSymbolsArrayOneOdd  != sameSymbolsArrayTwoOdd) {
+			sameSymbolsArrayOneEven != sameSymbolsArrayTwoEven ||
+			sameSymbolsArrayOneOdd  != sameSymbolsArrayTwoOdd) {
 		
 			flag = false;
 			
@@ -135,28 +135,6 @@ function newCompareIndex() {
 	}
 return answer;
 }
-
-
-
-
-
-
-
-
-//НУЖНО ПЕРЕДЕЛАТЬ ПРОГРАММУ - ВМЕСТО ЦИКЛА ИСПОЛЬЗОВАТЬ МЕТОД ПЕРЕБОРА
-// ПРОСТО РАДИ ПРОВЕРКИ ПЕРЕБОРА МАССИВА!!!
-function test() {
-
-	var arrays = getData(), symbolMatches = ["0", "1", "2", "3"];
-
-	symbolMatches.forEach(function(item, i, symbolMatches) {
-		console.log(`[${i}]: ${item}.`);
-	});
-}
-
-
-
-
 
 
 // сделать строки одинаковыми
@@ -179,12 +157,13 @@ function makeTheSame() {
 			var lastArrayTwo = swapOdd();
 
 			console.log(arrayOne);
-			console.log(lastArrayTwo);			
+			console.log(lastArrayTwo);
 		}
 	}
+	return [arrayOne, lastArrayTwo];
 }
 
-// перестановки четных элементов
+// swap odd elements
 function swapEven() {
 	var data = getData(),
 	arrayOne = data[0],
@@ -208,7 +187,7 @@ function swapEven() {
 	return arrayTwo;
 }
 
-// перестановки нечетных элементов
+// swap odd elements
 function swapOdd() {
 	var newArrayTwo = swapEven();
 
@@ -232,4 +211,21 @@ function swapOdd() {
 		}
 	}
 	return arrayTwo;
+}
+
+// transform arrays into strings
+function transformArray() {
+
+	var newData = makeTheSame(),
+	anotherArrayOne = newData[0],
+	anotherArrayTwo = newData[1],
+	anotherStringOne, anotherStringTwo;
+
+	anotherStringOne = anotherArrayOne.join("");
+	anotherStringTwo = anotherArrayTwo.join("");
+	
+	console.log(anotherStringOne);
+	console.log(anotherStringTwo);
+
+	return [anotherStringOne, anotherStringTwo];
 }
