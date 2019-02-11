@@ -1,51 +1,38 @@
 $(document).ready(function () {
 
-	// ответ на вопрос задачи
+	newGetData("AbCdAdBa", "AdBbCaAd");
+	//newGetData("AbCdAdBa", "AdBbCaA"); // a different lenght
+	//newGetData("AbCdAdBa", "AdBbCaAe"); // a different number of identical symbols
+
+	// answer to the question of Task
 	checkConditions();
 
-	// сделать строки одинаковыми
+	// make strings the same
 	//makeTheSame();
-
 });
 
-// на четных позициях стоят ЗАГЛАВНЫЕ БУКВЫ на нечетных - строчные
-// gets data
-function getData() {
-	var data = transformString("AbCdAdBa", "AdBbCaAd"),
-	arrayOne = data[0],
-	arrayTwo = data[1],
-	stringOne = data[2],
-	stringTwo = data[3];
-	return [arrayOne, arrayTwo, stringOne, stringTwo];
+
+function newGetData(initialArgument, varyArgument) {
+	var initialString, varyString,
+	initialArray, varyArray,
+	self = this;
+
+	this.initialString = initialArgument;
+	this.varyString = varyArgument;
+
+	this.initialArray = initialArgument.split("");
+	this.varyArray = varyArgument.split("");
+
+	//console.log(self.initialArray);
+	//console.log(self.varyArray);
 }
 
-// makes an array of string
-function transformString(stringOne, stringTwo) {
-	var arrayOne = stringOne.split(""),
-	arrayTwo = stringTwo.split("");
-	return [arrayOne, arrayTwo, stringOne, stringTwo];
-}
 
-// function checks do the strigns are equal
-function compareStrings() {
-	var strings = getData(),
-	stringOne = strings[2], stringTwo = strings[3];
-	return stringOne == stringTwo;
-}
-
-// the function checks do the strings length matches
-function compareLength() {
-	var strings = getData(),
-	stringOne = strings[2], stringTwo = strings[3];
-	return stringOne.length == stringTwo.length;
-}
-
-// проверка условий
+// check conditions
 function checkConditions() {
 	if (compareStrings()) {
 		alert("Ваши строки идентичны!");
-	} 
-	else if (compareLength()) {
+	} else if (compareLength()) {
 		displayTheAnswer();
 		return true;
 	} else {
@@ -54,178 +41,128 @@ function checkConditions() {
 	}
 }
 
-// выводим ответ на вопрос задачи на экран
+
+// function checks do the strigns are equal
+function compareStrings() {
+	return initialString == varyString;
+}
+
+// the function checks do the strings length matches
+function compareLength() {
+	return initialString.length == varyString.length;
+}
+
+// display the answer
 function displayTheAnswer() {
 	if (newCompareIndex()) {
 		alert("Строки можно сделать одинаковыми!");
-	} 
-	else {
+	} else {
 		alert("Строки нельзя сделать одинаковыми!");
 	}
 }
 
-// новая функция для сравнения символов по индексам
+
+// compare arrays
 function newCompareIndex() {
-	var data = getData(),
-
-	arrayOne = data[0],
-	arrayTwo = data[1],
-	stringOne = data[2],
-	stringTwo = data[3],
-	
-	numberOfSymbols = stringTwo.length,
-	flag = true,
+	var flag = true,
 	answer;
+	
+	let i = 0, j, k;
 
-	for (let i = 0; (i < numberOfSymbols && flag == true); i++) {
-		var sameSymbolsArrayOne = 1,
-		sameSymbolsArrayTwo = 0,
+	while(i < varyString.length && flag == true) {
+		let sameInitial = 1, sameVary = 0,
+		sameInitialEven = 0, sameInitialOdd = 0,
+		sameVaryEven = 0, sameVaryOdd = 0;
 
-		sameSymbolsArrayOneEven = 0,
-		sameSymbolsArrayOneOdd = 0,
-
-		sameSymbolsArrayTwoEven = 0,
-		sameSymbolsArrayTwoOdd = 0;
-
-		for (let j = 0; j < numberOfSymbols; j++) {
-
-			if (arrayOne[i] == arrayOne[j] && i != j) {
-				sameSymbolsArrayOne++;
-
-				if (j%2 == 0) {
-					sameSymbolsArrayOneEven++;
-				}
-
-				if (j%2 != 0) {
-					sameSymbolsArrayOneOdd++;
-				}
+		for (j = 0; j < varyString.length; j++) {
+			if (initialArray[i] == initialArray[j] && i != j) {
+				sameInitial++;
+				if (j%2 == 0) { sameInitialEven++; }
+				if (j%2 != 0) { sameInitialOdd++; }
 			}
-			
-			if (i == j && j%2 == 0) {
-				sameSymbolsArrayOneEven++;
-			} 
-
-			if (i == j && j%2 != 0) {
-				sameSymbolsArrayOneOdd++;
-			}
+			if (i == j && j%2 == 0) { sameInitialEven++; } 
+			if (i == j && j%2 != 0) { sameInitialOdd++; }
 		}
 
-		for (let k = 0; k < numberOfSymbols; k++) {
-			if (arrayOne[i] == arrayTwo[k]) {
-				sameSymbolsArrayTwo++;
-				if (k%2 == 0) {	sameSymbolsArrayTwoEven++;}
-				if (k%2 != 0) {	sameSymbolsArrayTwoOdd++;	}
+		for (k = 0; k < varyString.length; k++) {
+			if (initialArray[i] == varyArray[k]) {
+				sameVary++;
+				if (k%2 == 0) { sameVaryEven++; }
+				if (k%2 != 0) { sameVaryOdd++; }
 			}
 		}
 		
-		if (sameSymbolsArrayOne != sameSymbolsArrayTwo || 
-			sameSymbolsArrayOneEven != sameSymbolsArrayTwoEven ||
-			sameSymbolsArrayOneOdd  != sameSymbolsArrayTwoOdd) {
-		
+		if (sameInitial != sameVary || sameInitialEven != sameVaryEven ||
+			sameInitialOdd != sameVaryOdd) {
 			flag = false;
-			
 			answer = false;
-			console.log(arrayOne[i], sameSymbolsArrayOne, sameSymbolsArrayTwo);
-			break;
+			console.log(initialArray[i], sameInitial, sameVary);
 
 		} else {
-			console.log(arrayOne[i], sameSymbolsArrayOne, sameSymbolsArrayTwo);
+			console.log(initialArray[i], sameInitial, sameVary);
 			answer = true;
 		}
+	i++;
 	}
 return answer;
 }
 
 
-// сделать строки одинаковыми
+// make strings the same
 function makeTheSame() {
-	var data = getData(),
-	arrayOne = data[0];
-
 	if (checkConditions()) {
-		var newArrayTwo = swapEven();
+		var newVaryArray = swapEven();
+		console.log(initialArray);
+		console.log(newVaryArray);
 
-		console.log(arrayOne);
-		console.log(newArrayTwo);
-
-		if (arrayOne == newArrayTwo) {
+		if (initialArray == newVaryArray) {
 			console.log("Строки равны!!!");
-			console.log(`${arrayOne} и ${swapEven()}`);
-		}
-
-		else {
-			var lastArrayTwo = swapOdd();
-
-			console.log(arrayOne);
-			console.log(lastArrayTwo);
+			console.log(`${initialArray} и ${swapEven()}`);
+		} else {
+			var lastVaryArray = swapOdd();
+			console.log(initialArray);
+			console.log(lastVaryArray);
 		}
 	}
-	return [arrayOne, lastArrayTwo];
+	return [initialArray, lastVaryArray];
 }
+
 
 // swap odd elements
 function swapEven() {
-	var data = getData(),
-	arrayOne = data[0],
-	arrayTwo = data[1],
-	stringOne = data[2],
-	stringTwo = data[3],
-	symbolStore = [""],
-	numberOfSymbols = stringTwo.length;
+	var symbolStore = [""];
 
-	for (let i = 0; i < numberOfSymbols; i += 2) {
-		if (arrayOne[i] != arrayTwo[i]) {
-			for (let j = i; j < numberOfSymbols; j += 2) {
-				if (arrayOne[i] == arrayTwo[j]) {
-					symbolStore[0] = arrayTwo[j];
-					arrayTwo[j] = arrayTwo[i];
-					arrayTwo[i] = symbolStore[0];
+	for (let i = 0; i < varyString.length; i += 2) {
+		if (initialArray[i] != varyArray[i]) {
+			for (let j = i; j < varyString.length; j += 2) {
+				if (initialArray[i] == varyArray[j]) {
+					symbolStore[0] = varyArray[j];
+					varyArray[j] = varyArray[i];
+					varyArray[i] = symbolStore[0];
 				}
 			}
 		}
 	}
-	return arrayTwo;
+	return varyArray;
 }
+
 
 // swap odd elements
 function swapOdd() {
-	var newArrayTwo = swapEven();
+	var newVaryArray = swapEven(),
+	varyArray = newVaryArray,
+	symbolStore = [""]
 
-	var data = getData(),
-	arrayOne = data[0],
-	arrayTwo = newArrayTwo,
-	stringOne = data[2],
-	stringTwo = data[3],
-	symbolStore = [""],
-	numberOfSymbols = stringTwo.length;
-
-	for (let i = 1; i < numberOfSymbols; i += 2) {
-		if (arrayOne[i] != arrayTwo[i]) {
-			for (let j = i; j < numberOfSymbols; j += 2) {
-				if (arrayOne[i] == arrayTwo[j]) {
-					symbolStore[0] = arrayTwo[j];
-					arrayTwo[j] = arrayTwo[i];
-					arrayTwo[i] = symbolStore[0];
+	for (let i = 1; i < varyString.length; i += 2) {
+		if (initialArray[i] != varyArray[i]) {
+			for (let j = i; j < varyString.length; j += 2) {
+				if (initialArray[i] == varyArray[j]) {
+					symbolStore[0] = varyArray[j];
+					varyArray[j] = varyArray[i];
+					varyArray[i] = symbolStore[0];
 				}
 			}
 		}
 	}
-	return arrayTwo;
-}
-
-// transform arrays into strings
-function transformArray() {
-
-	var newData = makeTheSame(),
-	anotherArrayOne = newData[0],
-	anotherArrayTwo = newData[1],
-	anotherStringOne, anotherStringTwo;
-
-	anotherStringOne = anotherArrayOne.join("");
-	anotherStringTwo = anotherArrayTwo.join("");
-	
-	console.log(anotherStringOne);
-	console.log(anotherStringTwo);
-
-	return [anotherStringOne, anotherStringTwo];
+	return varyArray;
 }
